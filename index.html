@@ -1,23 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Tsevhu Translator</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Tsevhu Translator</title>
+  <style>
+    body { font-family: sans-serif; max-width:600px; margin:auto; padding:1rem; }
+    textarea, select, button { width:100%; padding:0.5rem; margin:0.5rem 0; font-size:1rem; }
+    #output { background:#f0f0f0; padding:1rem; min-height:2rem; }
+  </style>
 </head>
 <body>
-<h1>Hello from Tsevhu Translator</h1>
-<textarea id="inputText" placeholder="Enter text"></textarea><br />
-<button id="translateBtn">Translate</button>
-<p id="outputText"></p>
+  <h1>Tsevhu ↔ English Translator</h1>
+  <label>Direction:</label>
+  <select id="direction">
+    <option value="en-to-tsevhu">English → Tsevhu</option>
+    <option value="tsevhu-to-en">Tsevhu → English</option>
+  </select>
+  <textarea id="inputText" placeholder="Type here..."></textarea>
+  <button id="translateBtn">Translate</button>
+  <h2>Result:</h2>
+  <div id="output"></div>
 
-<script>
-function translate() {
-  const input = document.getElementById('inputText').value;
-  const output = 'Translated: ' + input; // placeholder
-  document.getElementById('outputText').textContent = output;
-}
-document.getElementById('translateBtn').addEventListener('click', translate);
-</script>
+  <script>
+    const dictionary = {
+      "water": "neshi",
+      "tree": "zelu",
+      "sky": "uvan",
+      "fish": "tsevhu",
+      "light": "kara",
+      "hello": "vashi",
+      "love": "khiwa",
+      "earth": "meki",
+      "sun": "lura",
+      "moon": "savi",
+      "star": "nutha"
+    };
+
+    const reverse = Object.fromEntries(
+      Object.entries(dictionary).map(([e,t]) => [t, e])
+    );
+
+    function translate() {
+      const dir = document.getElementById('direction').value;
+      const words = document.getElementById('inputText').value
+        .trim().toLowerCase().split(/\s+/);
+      const out = words.map(w => {
+        if (dir === 'en-to-tsevhu') return dictionary[w] || `[${w}]`;
+        else return reverse[w] || `[${w}]`;
+      });
+      document.getElementById('output').textContent = out.join(' ');
+    }
+
+    document.getElementById('translateBtn').addEventListener('click', translate);
+  </script>
 </body>
 </html>
