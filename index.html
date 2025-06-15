@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,42 +48,46 @@
   <label for="input">Text to Translate:</label>
   <textarea id="input" placeholder="Enter your text here..."></textarea>
 
-  <button onclick="translate()">Translate</button>
+  <button id="translateBtn">Translate</button>
 
   <h2>Translation:</h2>
   <div id="output"></div>
 
   <script>
-    const dictionary = {
-      "water": "neshi",
-      "tree": "zelu",
-      "sky": "uvan",
-      "fish": "tsevhu",
-      "light": "kara",
-      "hello": "vashi",
-      "goodbye": "dora",
-      "love": "khiwa",
-      "sun": "lura",
-      "moon": "savi",
-      "star": "nutha",
-      "earth": "meki"
-    };
+    document.addEventListener("DOMContentLoaded", () => {
+      const dictionary = {
+        "water": "neshi",
+        "tree": "zelu",
+        "sky": "uvan",
+        "fish": "tsevhu",
+        "light": "kara",
+        "hello": "vashi",
+        "goodbye": "dora",
+        "love": "khiwa",
+        "sun": "lura",
+        "moon": "savi",
+        "star": "nutha",
+        "earth": "meki"
+      };
 
-    function translate() {
-      const direction = document.getElementById("direction").value;
-      const inputText = document.getElementById("input").value.toLowerCase();
-      const words = inputText.split(/\s+/);
-      let result = [];
+      function translate() {
+        const direction = document.getElementById("direction").value;
+        const inputText = document.getElementById("input").value.toLowerCase();
+        const words = inputText.split(/\s+/);
+        let result = [];
 
-      if (direction === "en-to-tsevhu") {
-        result = words.map(word => dictionary[word] || `[${word}]`);
-      } else {
-        const reverseDict = Object.fromEntries(Object.entries(dictionary).map(([k, v]) => [v, k]));
-        result = words.map(word => reverseDict[word] || `[${word}]`);
+        if (direction === "en-to-tsevhu") {
+          result = words.map(word => dictionary[word] || `[${word}]`);
+        } else {
+          const reverseDict = Object.fromEntries(Object.entries(dictionary).map(([k, v]) => [v, k]));
+          result = words.map(word => reverseDict[word] || `[${word}]`);
+        }
+
+        document.getElementById("output").innerText = result.join(" ");
       }
 
-      document.getElementById("output").innerText = result.join(" ");
-    }
+      document.getElementById("translateBtn").addEventListener("click", translate);
+    });
   </script>
 </body>
 </html>
